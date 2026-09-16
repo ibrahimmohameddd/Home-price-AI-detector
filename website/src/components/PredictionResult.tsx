@@ -10,6 +10,12 @@ import {
   AlertTriangle,
   Loader2,
   RotateCw,
+  User,
+  CreditCard,
+  Paintbrush,
+  Sofa,
+  Car,
+  Shield,
 } from 'lucide-react';
 import { PropertyFeatures } from '../schema/propertySchema';
 import { formatPrice } from '../services/mlService';
@@ -86,7 +92,7 @@ export const PredictionResult: React.FC<PredictionResultProps> = ({
                     <div className="feature-icon"><Maximize2 /></div>
                     <div className="feature-copy">
                       <span className="feature-label">Area</span>
-                      {renderFeatureValue(extractedFeatures.area, 'm²')}
+                      {renderFeatureValue(extractedFeatures.Area, 'm²')}
                     </div>
                   </div>
 
@@ -95,7 +101,7 @@ export const PredictionResult: React.FC<PredictionResultProps> = ({
                     <div className="feature-icon"><BedDouble /></div>
                     <div className="feature-copy">
                       <span className="feature-label">Bedrooms</span>
-                      {renderFeatureValue(extractedFeatures.bedrooms)}
+                      {renderFeatureValue(extractedFeatures.Bedrooms)}
                     </div>
                   </div>
 
@@ -104,7 +110,7 @@ export const PredictionResult: React.FC<PredictionResultProps> = ({
                     <div className="feature-icon"><Bath /></div>
                     <div className="feature-copy">
                       <span className="feature-label">Bathrooms</span>
-                      {renderFeatureValue(extractedFeatures.bathrooms)}
+                      {renderFeatureValue(extractedFeatures.Bathrooms)}
                     </div>
                   </div>
 
@@ -113,34 +119,88 @@ export const PredictionResult: React.FC<PredictionResultProps> = ({
                     <div className="feature-icon"><Layers /></div>
                     <div className="feature-copy">
                       <span className="feature-label">Floor</span>
-                      {renderFeatureValue(extractedFeatures.floor)}
+                      {renderFeatureValue(extractedFeatures.Floor)}
                     </div>
                   </div>
 
-                  {/* Property Age */}
+                  {/* Year Built */}
                   <div className="feature-chip">
                     <div className="feature-icon"><Calendar /></div>
                     <div className="feature-copy">
-                      <span className="feature-label">Property Age</span>
-                      {renderFeatureValue(extractedFeatures.property_age, 'yrs')}
+                      <span className="feature-label">Year Built</span>
+                      {renderFeatureValue(extractedFeatures.YearBuilt)}
                     </div>
                   </div>
 
-                  {/* Location — last */}
+                  {/* Location */}
                   <div className="feature-chip">
                     <div className="feature-icon"><MapPin /></div>
                     <div className="feature-copy">
                       <span className="feature-label">Location</span>
-                      {renderFeatureValue(extractedFeatures.location)}
+                      {renderFeatureValue(extractedFeatures.Location)}
                     </div>
                   </div>
 
-                  {/* View — last */}
+                  {/* View */}
                   <div className="feature-chip">
                     <div className="feature-icon"><Eye /></div>
                     <div className="feature-copy">
                       <span className="feature-label">View</span>
-                      {renderFeatureValue(extractedFeatures.view)}
+                      {renderFeatureValue(extractedFeatures.View)}
+                    </div>
+                  </div>
+
+                  {/* Seller */}
+                  <div className="feature-chip">
+                    <div className="feature-icon"><User /></div>
+                    <div className="feature-copy">
+                      <span className="feature-label">Seller</span>
+                      {renderFeatureValue(extractedFeatures.Seller)}
+                    </div>
+                  </div>
+
+                  {/* Payment */}
+                  <div className="feature-chip">
+                    <div className="feature-icon"><CreditCard /></div>
+                    <div className="feature-copy">
+                      <span className="feature-label">Payment</span>
+                      {renderFeatureValue(extractedFeatures.Payment)}
+                    </div>
+                  </div>
+
+                  {/* Finishing */}
+                  <div className="feature-chip">
+                    <div className="feature-icon"><Paintbrush /></div>
+                    <div className="feature-copy">
+                      <span className="feature-label">Finishing</span>
+                      {renderFeatureValue(extractedFeatures.Finishing)}
+                    </div>
+                  </div>
+
+                  {/* Furnished */}
+                  <div className="feature-chip">
+                    <div className="feature-icon"><Sofa /></div>
+                    <div className="feature-copy">
+                      <span className="feature-label">Furnished</span>
+                      {renderFeatureValue(extractedFeatures.Furnished)}
+                    </div>
+                  </div>
+
+                  {/* Parking */}
+                  <div className="feature-chip">
+                    <div className="feature-icon"><Car /></div>
+                    <div className="feature-copy">
+                      <span className="feature-label">Parking</span>
+                      {renderFeatureValue(extractedFeatures.Parking)}
+                    </div>
+                  </div>
+
+                  {/* Security */}
+                  <div className="feature-chip">
+                    <div className="feature-icon"><Shield /></div>
+                    <div className="feature-copy">
+                      <span className="feature-label">Security</span>
+                      {renderFeatureValue(extractedFeatures.Security)}
                     </div>
                   </div>
                 </div>

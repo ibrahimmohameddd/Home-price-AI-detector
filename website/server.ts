@@ -59,24 +59,41 @@ app.post('/api/extract-features', async (req, res) => {
 You are an automated property data extraction system for a downstream Machine Learning model.
 Extract ONLY the predefined property features from the uploaded image. The image may be a property photograph, a flyer/advertisement, or a social media listing screenshot.
 
-PREDEFINED FIXED SCHEMA:
+PREDEFINED FIXED SCHEMA (use these EXACT key names):
 {
-  "bedrooms": integer or null,
-  "bathrooms": integer or null,
-  "area": number (total size in numeric format) or null,
-  "location": string (city/district/neighborhood name) or null,
-  "view": string (e.g. "sea", "garden", "city", "street", "pool") or null,
-  "floor": integer or null,
-  "property_age": number (years) or null
+  "Location": string or null,
+  "Area": number (total area in sqm, numeric only) or null,
+  "Bedrooms": integer or null,
+  "Bathrooms": integer or null,
+  "Floor": integer or null,
+  "YearBuilt": integer (the year the property was built, e.g. 2020) or null,
+  "Seller": string or null,
+  "View": string or null,
+  "Payment": string or null,
+  "Finishing": string or null,
+  "Furnished": string or null,
+  "Parking": string or null,
+  "Security": string or null
 }
 
+ALLOWED CATEGORICAL VALUES (you MUST use ONLY these exact values):
+- Location: "Shubra", "Al-Haram", "Sheikh Zayed", "Maadi", "6th of October", "Ain Shams", "New Cairo", "Madinaty", "Nasr City", "Heliopolis"
+- View: "Street", "Other", "Garden", "Pool", "Lake"
+- Seller: "Developer", "Broker", "Private Owner"
+- Payment: "Installments", "Cash", "Cash or installments"
+- Finishing: "Finished", "Unfinished"
+- Furnished: "Furnished", "Unfurnished"
+- Parking: "Yes", "No"
+- Security: "Yes", "No"
+
 CRITICAL RULES:
-1. ONLY extract the 7 predefined fields listed above.
+1. ONLY extract the 13 predefined fields listed above.
 2. If a feature cannot be reliably determined or is not explicitly mentioned, you MUST set its value to null.
 3. NEVER guess, assume, or invent values.
 4. NEVER estimate or predict the property's price.
-5. Completely ignore any extra information (such as schools, parking, elevators, renovation, owner info, phone numbers, contact names, price tags, or general descriptions).
-6. Output MUST be strictly valid JSON matching the exact schema. No markdown formatting, no commentary.
+5. For categorical features, use ONLY the exact allowed values listed above. If the extracted value does not match any allowed value, set it to null.
+6. If the image mentions a property age (e.g. "5 years old"), calculate YearBuilt as current year minus age.
+7. Output MUST be strictly valid JSON matching the exact schema. No markdown formatting, no commentary.
 `;
 
     let response;
@@ -157,18 +174,22 @@ CRITICAL RULES:
 });
 
 /**
- * Placeholder endpoint for the future Python Machine Learning API.
- * As per instructions: "Do not implement the Python machine-learning backend yet.
- * Use a placeholder endpoint: POST /predict. The request body contains the fixed feature JSON."
- * Returns 503 so the frontend properly registers the "Python API unavailable" state.
+ * Proxy endpoint that forwards prediction requests to the Python ML API.
  */
-app.post('/predict', (req, res) => {
-  res.status(503).json({
-    status: 'unavailable',
-    error: 'Python ML service is currently offline. The Python prediction API is not yet connected.',
-    endpoint: '/predict',
-    received_payload: req.body,
-  });
+app.post('/predict', async (req, res) => {
+  try {
+    const pythonResponse = await fetch('http://localhost:5000/predict', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(req.body),
+    });
+    const data = await pythonResponse.json();
+    return res.status(pythonResponse.status).json(data);
+  } catch (error: any) {
+    return res.status(503).json({
+      error: 'Python ML service is currently offline. Start app.py to enable predictions.',
+    });
+  }
 });
 
 async function startServer() {
