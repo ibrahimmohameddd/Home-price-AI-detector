@@ -136,13 +136,13 @@ export const HouseUploadBox: React.FC<HouseUploadBoxProps> = ({
                   <Loader2 />
                   <p className="processing-title">
                     {loadingStep === 'gemini'
-                      ? 'Analyzing image with Gemini...'
+                      ? 'Analyzing image...'
                       : 'Requesting prediction from Python ML model...'}
                   </p>
                   <p className="processing-detail">
                     {loadingStep === 'gemini'
-                      ? 'Extracting predefined features into fixed JSON schema'
-                      : 'Sending payload to Python ML API (POST /predict)'}
+                      ? 'Extracting predefined features'
+                      : 'Sending payload to Python ML for prediction'}
                   </p>
                 </div>
               )}
